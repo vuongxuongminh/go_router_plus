@@ -7,10 +7,8 @@
 
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_router/src/state.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
 class InvalidBuilderScreen extends Screen {
