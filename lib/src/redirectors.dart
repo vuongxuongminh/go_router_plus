@@ -61,7 +61,7 @@ class ScreenRedirector implements RestrictRedirector {
       );
     }
 
-    return (Screen as RedirectAware).redirect(state);
+    return (screen as RedirectAware).redirect(state);
   }
 
   @override
