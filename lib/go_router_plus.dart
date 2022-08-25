@@ -7,4 +7,4 @@
 
 library go_router_plus;
 
-export 'src/go_router_plus.dart' hide ChainRedirector;
+export 'src/go_router_plus.dart';

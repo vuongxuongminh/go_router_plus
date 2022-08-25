@@ -24,7 +24,7 @@ abstract class RestrictRedirector implements Redirector {
   bool shouldRedirect(Screen screen);
 }
 
-/// Chain of responsibility redirector
+/// Chain redirector
 class ChainRedirector implements Redirector {
   /// Redirectors have responsibility to decide redirect screen.
   ChainRedirector(this._redirectors);

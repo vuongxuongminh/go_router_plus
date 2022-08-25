@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 part 'auth.dart';
 
-part 'controller.dart';
+part 'screen_controller.dart';
 
 part 'exceptions.dart';
 
