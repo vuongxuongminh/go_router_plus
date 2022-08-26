@@ -26,7 +26,7 @@ class ScreenController {
   final Redirector? _redirector;
 
   /// Loaded routes.
-  List<GoRoute>? _routes;
+  late final List<GoRoute> _routes = _loadScreens();
 
   List<GoRoute> _loadScreens({List<Screen>? screens}) {
     final routes = <GoRoute>[];
@@ -78,7 +78,7 @@ class ScreenController {
   Screen? get errorScreen => _errorScreen;
 
   /// List routes representation for screens
-  List<GoRoute> get routes => _routes ??= _loadScreens();
+  List<GoRoute> get routes => _routes;
 }
 
 /// Abstract class extends by app screen.
