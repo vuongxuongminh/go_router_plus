@@ -144,3 +144,25 @@ class AwareRedirectScreen extends Screen implements RedirectAware {
   @override
   String get routePath => throw UnimplementedError();
 }
+
+class ScreenOfUser extends Screen implements UserScreen {
+  @override
+  builder(BuildContext context, GoRouterState state) => Text('User screen');
+
+  @override
+  String get routeName => 'user';
+
+  @override
+  String get routePath => '/user';
+}
+
+class ScreenOfGuest extends Screen implements GuestScreen {
+  @override
+  builder(BuildContext context, GoRouterState state) => Text('Guest screen');
+
+  @override
+  String get routeName => 'guest';
+
+  @override
+  String get routePath => '/guest';
+}

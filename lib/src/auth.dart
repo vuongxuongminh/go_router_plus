@@ -38,6 +38,13 @@ class AuthRedirector implements RestrictRedirector {
 
   @override
   String? redirect(Screen screen, GoRouterState _) {
+    if (!shouldRedirect(screen)) {
+      throw UnexpectedScreenException(
+        message: 'should implement UserScreen or GuestScreen',
+        screen: screen,
+      );
+    }
+
     if (screen is UserScreen && !state.loggedIn) {
       return guestRedirectPath;
     }
