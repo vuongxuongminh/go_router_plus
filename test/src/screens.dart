@@ -126,3 +126,21 @@ class ErrorScreenG extends Screen implements ErrorScreen {
   @override
   String get routePath => 'e';
 }
+
+class AwareRedirectScreen extends Screen implements RedirectAware {
+  @override
+  builder(BuildContext context, GoRouterState state) {
+    throw UnimplementedError();
+  }
+
+  @override
+  String? redirect(GoRouterState state) {
+    return '/a';
+  }
+
+  @override
+  String get routeName => throw UnimplementedError();
+
+  @override
+  String get routePath => throw UnimplementedError();
+}

@@ -66,7 +66,7 @@ class ScreenRedirector implements RestrictRedirector {
 
   @override
   bool shouldRedirect(Screen screen) {
-    return Screen is RedirectAware;
+    return screen is RedirectAware;
   }
 }
 

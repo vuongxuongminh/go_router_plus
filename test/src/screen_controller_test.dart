@@ -11,7 +11,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
-import '../screens.dart';
+import 'screens.dart';
 
 void main() {
   test('test get routes', () {
