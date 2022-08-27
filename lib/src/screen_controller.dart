@@ -7,14 +7,17 @@
 
 part of 'go_router_plus.dart';
 
-/// Control routes by screens.
+/// Collect and analyzing screens to detect initial screen, error screen 
+/// and control redirect of routes.
 class ScreenController {
   /// Construct controller with screens
   ScreenController({
     required List<Screen> screens,
     Redirector? redirector,
   })  : _screens = screens,
-        _redirector = redirector;
+        _redirector = redirector {
+    _routes = _loadScreens();
+  }
 
   Screen? _initialScreen;
 
@@ -26,7 +29,7 @@ class ScreenController {
   final Redirector? _redirector;
 
   /// Loaded routes.
-  late final List<GoRoute> _routes = _loadScreens();
+  late final List<GoRoute> _routes;
 
   List<GoRoute> _loadScreens({List<Screen>? screens}) {
     final routes = <GoRoute>[];
@@ -134,7 +137,7 @@ abstract class Screen {
       );
     }
 
-    throw InvalidBuilderException(builder);
+    throw InvalidBuilderException(this);
   }
 }
 

@@ -29,13 +29,13 @@ class DuplicateScreenException implements Exception {
 /// implementing [Screen] have a [Screen.builder] returning invalid types.
 class InvalidBuilderException implements Exception {
   /// Exception constructor
-  InvalidBuilderException(this._builder);
+  InvalidBuilderException(this._screen);
 
-  final dynamic Function(BuildContext context, GoRouterState state) _builder;
+  final Screen _screen;
 
   @override
   String toString() => '''
-    Builder should only return Widget or Page, ${_builder.runtimeType} given
+    Builder method of [${_screen.runtimeType}] should only return Widget or Page<void>.
   ''';
 }
 

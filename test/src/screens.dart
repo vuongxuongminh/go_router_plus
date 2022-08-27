@@ -102,34 +102,47 @@ class SubScreenE extends Screen {
 }
 
 class InitialScreenF extends Screen implements InitialScreen {
+  InitialScreenF({String? tapTo}) : _tapToScreen = tapTo;
+
+  final String? _tapToScreen;
+
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
-    return Text('E');
+  Widget builder(BuildContext _, GoRouterState state) {
+    return Builder(
+      builder: (context) => GestureDetector(
+        child: Text('F'),
+        onTap: () {
+          if (_tapToScreen != null) {
+            context.goNamed(_tapToScreen!);
+          }
+        },
+      ),
+    );
   }
 
   @override
-  String get routeName => 'E';
+  String get routeName => 'F';
 
   @override
-  String get routePath => 'e';
+  String get routePath => '/f';
 }
 
 class ErrorScreenG extends Screen implements ErrorScreen {
   @override
   Widget builder(BuildContext context, GoRouterState state) {
-    return Text('E');
+    return Text('G');
   }
 
   @override
-  String get routeName => 'E';
+  String get routeName => 'G';
 
   @override
-  String get routePath => 'e';
+  String get routePath => '/g';
 }
 
-class AwareRedirectScreen extends Screen implements RedirectAware {
+class AwareRedirectScreenH extends Screen implements RedirectAware {
   @override
-  builder(BuildContext context, GoRouterState state) {
+  Widget builder(BuildContext context, GoRouterState state) {
     throw UnimplementedError();
   }
 
@@ -139,30 +152,30 @@ class AwareRedirectScreen extends Screen implements RedirectAware {
   }
 
   @override
-  String get routeName => throw UnimplementedError();
+  String get routeName => 'H';
 
   @override
-  String get routePath => throw UnimplementedError();
+  String get routePath => '/h';
 }
 
-class ScreenOfUser extends Screen implements UserScreen {
+class ScreenIUser extends Screen implements UserScreen {
   @override
-  builder(BuildContext context, GoRouterState state) => Text('User screen');
+  Widget builder(BuildContext context, GoRouterState state) => Text('I');
 
   @override
-  String get routeName => 'user';
+  String get routeName => 'I';
 
   @override
-  String get routePath => '/user';
+  String get routePath => '/i';
 }
 
-class ScreenOfGuest extends Screen implements GuestScreen {
+class ScreenJGuest extends Screen implements GuestScreen {
   @override
-  builder(BuildContext context, GoRouterState state) => Text('Guest screen');
+  Widget builder(BuildContext context, GoRouterState state) => Text('J');
 
   @override
-  String get routeName => 'guest';
+  String get routeName => 'J';
 
   @override
-  String get routePath => '/guest';
+  String get routePath => '/j';
 }

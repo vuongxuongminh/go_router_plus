@@ -37,14 +37,15 @@ void main() {
     expect(controller.errorScreen, null);
   });
 
-  test('test get routes will throw exception when have invalid screen builder', () {
-    final controller = ScreenController(
-      screens: [
-        InvalidBuilderScreen(),
-      ],
+  test('test constructor will throw exception when have invalid screen builder', () {
+    expect(
+      () => ScreenController(
+        screens: [
+          InvalidBuilderScreen(),
+        ],
+      ),
+      throwsA(isA<InvalidBuilderException>()),
     );
-
-    expect(() => controller.routes, throwsA(isA<InvalidBuilderException>()));
   });
 
   test('test get routes have initial screen', () {

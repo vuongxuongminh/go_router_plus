@@ -49,8 +49,8 @@ void main() {
   test('test screen rediretor should redirect', () {
     final redirector = ScreenRedirector();
 
-    expect(redirector.redirect(AwareRedirectScreen(), MockGoRouterState()), '/a');
-    expect(redirector.shouldRedirect(AwareRedirectScreen()), true);
+    expect(redirector.redirect(AwareRedirectScreenH(), MockGoRouterState()), '/a');
+    expect(redirector.shouldRedirect(AwareRedirectScreenH()), true);
   });
 
   test('test screen rediretor should not redirect', () {

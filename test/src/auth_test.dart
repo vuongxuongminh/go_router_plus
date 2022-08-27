@@ -46,16 +46,16 @@ void main() {
   });
 
   test('test auth redirector with un logged state', () {
-    expect(guestRedirector.shouldRedirect(ScreenOfUser()), true);
-    expect(guestRedirector.shouldRedirect(ScreenOfGuest()), true);
-    expect(guestRedirector.redirect(ScreenOfUser(), MockGoRouterState()), '/login');
-    expect(guestRedirector.redirect(ScreenOfGuest(), MockGoRouterState()), null);
+    expect(guestRedirector.shouldRedirect(ScreenIUser()), true);
+    expect(guestRedirector.shouldRedirect(ScreenJGuest()), true);
+    expect(guestRedirector.redirect(ScreenIUser(), MockGoRouterState()), '/login');
+    expect(guestRedirector.redirect(ScreenJGuest(), MockGoRouterState()), null);
   });
 
   test('test auth redirector with logged state', () {
-    expect(userRedirector.shouldRedirect(ScreenOfUser()), true);
-    expect(userRedirector.shouldRedirect(ScreenOfGuest()), true);
-    expect(userRedirector.redirect(ScreenOfGuest(), MockGoRouterState()), '/home-page');
-    expect(userRedirector.redirect(ScreenOfUser(), MockGoRouterState()), null);
+    expect(userRedirector.shouldRedirect(ScreenIUser()), true);
+    expect(userRedirector.shouldRedirect(ScreenJGuest()), true);
+    expect(userRedirector.redirect(ScreenJGuest(), MockGoRouterState()), '/home-page');
+    expect(userRedirector.redirect(ScreenIUser(), MockGoRouterState()), null);
   });
 }
