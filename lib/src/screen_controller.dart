@@ -7,10 +7,10 @@
 
 part of 'go_router_plus.dart';
 
-/// Collect and analyze screens to detect initial screen, error screen
-/// and control redirect of routes.
+/// Collect and analyze list of [Screen] to detect initial screen, error screen
+/// and control redirect of routes by using [Redirector].
 class ScreenController {
-  /// Construct controller with screens
+  /// Construct controller with list of [Screen], and [Redirector]
   ScreenController({
     required List<Screen> screens,
     Redirector? redirector,
@@ -35,7 +35,7 @@ class ScreenController {
     final routes = <GoRoute>[];
 
     for (final screen in screens ?? _screens) {
-      screen.controller = this;
+      screen._controller = this;
 
       _ensureInitialScreenOnLoad(screen);
       _ensureErrorScreenOnLoad(screen);
@@ -87,7 +87,7 @@ class ScreenController {
 /// Abstract class extends by app screen.
 abstract class Screen {
   /// The controller of this screen
-  late final ScreenController controller;
+  late final ScreenController _controller;
 
   /// Go router path
   String get routePath;
@@ -124,8 +124,8 @@ abstract class Screen {
       return GoRoute(
         path: routePath,
         name: routeName,
-        routes: controller._loadScreens(screens: subScreens()),
-        redirect: (state) => controller._redirector?.redirect(this, state),
+        routes: _controller._loadScreens(screens: subScreens()),
+        redirect: (state) => _controller._redirector?.redirect(this, state),
         pageBuilder: pageBuilder,
       );
     }
@@ -134,8 +134,8 @@ abstract class Screen {
       return GoRoute(
         path: routePath,
         name: routeName,
-        routes: controller._loadScreens(screens: subScreens()),
-        redirect: (state) => controller._redirector?.redirect(this, state),
+        routes: _controller._loadScreens(screens: subScreens()),
+        redirect: (state) => _controller._redirector?.redirect(this, state),
         builder: widgetBuilder,
       );
     }
