@@ -103,8 +103,8 @@ final router = createGoRouter(
 Redirector
 ==========
 
-`Redirector` is an interface providing by this package implements classes will handles all
-[redirection logics](https://gorouter.dev/redirection) of routes.
+`Redirector` is an interface providing by this package implements classes will handles 
+[redirection logics](https://gorouter.dev/redirection) of all routes.
 
 You can setup one or many redirectors via `redirectors` argument of `createGoRouter` factory function:
 
@@ -146,7 +146,7 @@ class LoggedInStateProvider implements LoggedInState {
 ```
 
 It's a simple interface need you implements `loggedIn` getter,
-this getter return `true` when user have been logged in otherwise 
+this getter return `true` when user has been logged in otherwise 
 user's guest (not logged in).
 
 And you need to marks guest and user screens via `UserScreen` and `GuestScreen` interfaces:
@@ -174,8 +174,7 @@ this scenario, we need to add `AuthRedirector` with the setting bellow:
 final router = createGoRouter(
   screens: [
     LoginScreen(),
-    MyFirstScreen(),
-    MyErrorScreen(),
+    HomeScreen(),
   ],
   redirectors: [
     AuthRedirector(
