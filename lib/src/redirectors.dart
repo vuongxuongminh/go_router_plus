@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+// ignore_for_file: one_member_abstracts
+
 part of 'go_router_plus.dart';
 
 /// Redirector responsible to redirect end-user to another screen

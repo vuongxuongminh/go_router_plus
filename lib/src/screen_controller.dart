@@ -7,7 +7,7 @@
 
 part of 'go_router_plus.dart';
 
-/// Collect and analyzing screens to detect initial screen, error screen 
+/// Collect and analyze screens to detect initial screen, error screen
 /// and control redirect of routes.
 class ScreenController {
   /// Construct controller with screens
@@ -25,10 +25,10 @@ class ScreenController {
 
   final List<Screen> _screens;
 
-  /// Route redirector of the controller.
+  /// Route redirector use for setting redirect of [_routes].
   final Redirector? _redirector;
 
-  /// Loaded routes.
+  /// Routes loaded from [_screens] received.
   late final List<GoRoute> _routes;
 
   List<GoRoute> _loadScreens({List<Screen>? screens}) {
@@ -74,10 +74,10 @@ class ScreenController {
     }
   }
 
-  /// First screen
+  /// Initial screen usually use for setting initial path of router.
   Screen? get initialScreen => _initialScreen;
 
-  /// Error screen
+  /// Error screen usually use for setting error builder of router.
   Screen? get errorScreen => _errorScreen;
 
   /// List routes representation for screens
@@ -102,6 +102,9 @@ abstract class Screen {
   }
 
   /// Builder help to build widget or page representation for this screen.
+  /// when implements this method you must redeclare return type of it,
+  /// the return type must be Widget or Page<void>
+  /// depends on you want to control transition or not.
   dynamic builder(BuildContext context, GoRouterState state);
 
   GoRoute get _route {
