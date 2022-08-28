@@ -166,7 +166,7 @@ class HomeScreen extends Screen implements UserScreen {
 ```
 
 We have two screen, one for guest (login screen) and one for 
-user (home screen). When user is NOT logged in he/she will be redirect
+user (home screen). When user is **NOT** logged in he/she will be redirect
 to login screen otherwise he/she will redirect to home screen, to handling
 this scenario, we need to add `AuthRedirector` with the setting bellow:
 
@@ -189,3 +189,45 @@ final router = createGoRouter(
 Now everytime user access to screens implements `UserScreen` interface but
 he/she's **NOT** logged in will be redirect to login screen and if they access to
 screens implements `GuestScreen` interface but logged in will be redirect to home screen.
+
+### Screen redirection
+
+It's a builtin feature support screens have a custom `redirect` logic (e.g: access control by app states, user roles).
+
+Screens want to build custom redirect logic should be implements `RedirectAware`:
+
+```dart
+class VipScreen extends Screen implements UserScreen, RedirectAware {
+ @override
+ String? redirect(GoRouterState state) {
+   /// final currentUser = ....
+   return !currentUser.isVip ? '/home' : null; 
+ }
+}
+```
+
+Like [traditional redirection](https://gorouter.dev/redirection),
+`redirect` method above return null in case current user's VIP type so user can stay 
+in this screen, on the other hand normal user will be redirect to home screen.
+
+And to activate this feature pass `ScreenRedirector` instance to `redirectors` argument of factory function:
+
+```dart
+final router = createGoRouter(
+  screens: [
+    LoginScreen(),
+    HomeScreen(),
+    VipScreen(),
+  ],
+  redirectors: [
+    ScreenRedirector(),
+    AuthRedirector(
+     state: LoggedInStateProvider(),
+     guestRedirectPath: '/login',
+     userRedirectPath: '/home',
+    ),
+  ],
+);
+```
+
+### Creating custom redirector
