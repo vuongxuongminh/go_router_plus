@@ -63,4 +63,26 @@ void main() {
     expect(controller.routes.length, 1);
     expect(controller.errorScreen, screen);
   });
+
+  test('test duplicated error and initial screens', () {
+    expect(
+      () => ScreenController(
+        screens: [
+          ErrorScreenG(),
+          ErrorScreenG(),
+        ],
+      ),
+      throwsA(isA<DuplicateScreenException>()),
+    );
+
+    expect(
+      () => ScreenController(
+        screens: [
+          InitialScreenF(),
+          InitialScreenF(),
+        ],
+      ),
+      throwsA(isA<DuplicateScreenException>()),
+    );
+  });
 }
