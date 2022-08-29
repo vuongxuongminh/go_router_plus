@@ -1,5 +1,5 @@
 name: go_router_plus
-description: Building blocks to manage app screens, access control and refresh notifiers.
+description: Building blocks screens, access control and refresh notifiers base on Go Router.
 version: 1.0.0
 repository: https://github.com/vuongxuongminh/go_router_plus
 
