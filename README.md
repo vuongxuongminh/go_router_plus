@@ -1,6 +1,10 @@
 Go Router Plus
 ==============
 
+[![CI](https://github.com/vuongxuongminh/go_router_plus/actions/workflows/tests.yml/badge.svg)](https://github.com/vuongxuongminh/go_router_plus/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/vuongxuongminh/go_router_plus/branch/main/graph/badge.svg?token=Q7ANR151NC)](https://codecov.io/gh/vuongxuongminh/go_router_plus)
+[![GitHub license](https://img.shields.io/github/license/vuongxuongminh/go_router_plus)](https://github.com/vuongxuongminh/go_router_plus/blob/main/LICENSE)
+
 [Go Router](https://gorouter.dev/) is an awesome easy-to-use and production ready package for creating routes, handling 
 navigation, deep and dynamic links but in large apps have a lot of screens, states and auth logics,
 it's hard to manage routes, redirect and refresh router logics. 
