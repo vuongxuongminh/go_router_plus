@@ -276,5 +276,61 @@ final router = createGoRouter(
 );
 ```
 
+Refresh notifiers
+=================
 
+Refresh listenable is a [builtin feature of GoRouter](https://gorouter.dev/redirection#refreshing-with-a-stream) 
+to re-invoke redirection logics but it only accept one listenable and we need to implements all of 
+re-invoke logics in one place. 
+
+With this package you can add more than one listenable to re-invoke redirection logics so you can separate logics to easy control,
+readable and independent to each others.
+
+Pass one or more listenable instance to `refreshNotifiers` argument of factory function:
+
+```dart
+class AuthService with ChangeNotifier implements LoggedInState {
+  bool _loggedIn = true;
+  
+  @override
+  bool loggedIn() => _loggedIn;
+  
+  void logout() {
+    _loggedIn = false;
+    notifyListeners();
+  }
+}
+
+class PromotionService with ChangeNotifer {
+ void activate() {
+  ///....
+  notifyListeners();
+ }
+}
+
+final authService = AuthService();
+final router = createGoRouter(
+ screens: [
+  ManageUserScreen(),
+ ],
+ redirectors: [
+  AuthRedirector(
+   state: authService,
+   guestRedirectPath: '/login',
+   userRedirectPath: '/home',
+  ),
+  ///...
+ ],
+ refreshNotifiers: [
+  authService,
+  PromotionService(),
+  /// GoRouterRefreshStream(...),
+ ]
+);
+```
+
+In the example above, `AuthService` class's a refresh notifier and implements `LoggedInState` interface
+to providing state of current user's logged-in or guest. When user logout `AuthRedirector` will invoke 
+and redirect he/she to login screen. In the other hand, promotion service will invoke redirection logic
+when activate promotion (e.g: move user to promotion screen).
 
