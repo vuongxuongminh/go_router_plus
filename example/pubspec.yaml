@@ -17,6 +17,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  very_good_analysis: ^3.0.1
 
 dependency_overrides:
   go_router_plus:
