@@ -20,6 +20,7 @@ part 'redirectors.dart';
 part 'refresher.dart';
 
 /// Factory function to create Go Router
+/// with [Screen]s, [Redirector]s and refresh router notifiers.
 GoRouter createGoRouter({
   required List<Screen> screens,
   List<Redirector>? redirectors,

@@ -96,7 +96,8 @@ abstract class Screen {
   String get routeName;
 
   /// List sub screens
-  /// all route path of sub screens will prefix with route path current screen.
+  /// all route path of sub screens
+  /// will prefix with route path of current screen.
   List<Screen> subScreens() {
     return [];
   }
@@ -113,30 +114,22 @@ abstract class Screen {
     Widget Function(BuildContext, GoRouterState)? widgetBuilder;
 
     if (screenBuilder is Page<void> Function(BuildContext, GoRouterState)) {
-      pageBuilder = screenBuilder;
-    }
-
-    if (screenBuilder is Widget Function(BuildContext, GoRouterState)) {
-      widgetBuilder = screenBuilder;
-    }
-
-    if (pageBuilder != null) {
       return GoRoute(
         path: routePath,
         name: routeName,
         routes: _controller._loadScreens(screens: subScreens()),
         redirect: (state) => _controller._redirector?.redirect(this, state),
-        pageBuilder: pageBuilder,
+        pageBuilder: screenBuilder,
       );
     }
 
-    if (widgetBuilder != null) {
+    if (screenBuilder is Widget Function(BuildContext, GoRouterState)) {
       return GoRoute(
         path: routePath,
         name: routeName,
         routes: _controller._loadScreens(screens: subScreens()),
         redirect: (state) => _controller._redirector?.redirect(this, state),
-        builder: widgetBuilder,
+        builder: screenBuilder,
       );
     }
 
