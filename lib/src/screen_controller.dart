@@ -110,8 +110,6 @@ abstract class Screen {
 
   GoRoute get _route {
     final screenBuilder = builder;
-    Page<void> Function(BuildContext, GoRouterState)? pageBuilder;
-    Widget Function(BuildContext, GoRouterState)? widgetBuilder;
 
     if (screenBuilder is Page<void> Function(BuildContext, GoRouterState)) {
       return GoRoute(
