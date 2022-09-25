@@ -16,7 +16,8 @@ import 'auth.dart';
 import 'screens.dart';
 
 void main() {
-  testWidgets('test go router factory has initial screen will work', (tester) async {
+  testWidgets('test go router factory has initial screen will work',
+      (tester) async {
     final router = createGoRouter(
       screens: [
         ScreenA(),
@@ -27,20 +28,20 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp.router(
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-        routeInformationProvider: router.routeInformationProvider,
+        routerConfig: router,
       ),
     );
 
     expect(find.text('F'), findsOneWidget);
   });
 
-  testWidgets('test go router factory has error screen will work', (tester) async {
+  testWidgets('test go router factory has error screen will work',
+      (tester) async {
     final router = createGoRouter(
       screens: [
         InitialScreenF(tapTo: 'H'),
-        AwareRedirectScreenH(), // H will redirect to screen A but it's not exist screen will cause error.
+        AwareRedirectScreenH(),
+        // H will redirect to screen A but it's not exist screen will cause error.
         ErrorScreenG(),
       ],
       redirectors: [
@@ -50,9 +51,7 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp.router(
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-        routeInformationProvider: router.routeInformationProvider,
+        routerConfig: router,
       ),
     );
 
@@ -64,7 +63,8 @@ void main() {
     expect(find.text('G'), findsOneWidget);
   });
 
-  test('test go router factory throw exception when received invalid screen', () {
+  test('test go router factory throw exception when received invalid screen',
+      () {
     expect(
       () => createGoRouter(
         screens: [
@@ -92,7 +92,9 @@ void main() {
         redirectors: [
           ScreenRedirector(),
           AuthRedirector(
-            state: tapTo == 'I' ? UnLoggedInStateProvider() : LoggedInStateProvider(),
+            state: tapTo == 'I'
+                ? UnLoggedInStateProvider()
+                : LoggedInStateProvider(),
             userRedirectPath: '/i',
             guestRedirectPath: '/j',
           ),
@@ -101,9 +103,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp.router(
-          routeInformationParser: router.routeInformationParser,
-          routerDelegate: router.routerDelegate,
-          routeInformationProvider: router.routeInformationProvider,
+          routerConfig: router,
         ),
       );
 
@@ -124,5 +124,29 @@ void main() {
           break;
       }
     }
+  });
+
+  testWidgets('test shell screen navigator', (tester) async {
+    final router = createGoRouter(
+      screens: [
+        ShellScreenH(),
+      ],
+    );
+
+    await tester.pumpWidget(
+      MaterialApp.router(
+        routerConfig: router,
+      ),
+    );
+
+    expect(find.text('Shell screen'), findsOneWidget);
+
+    final t = find.text('F');
+
+    await tester.tap(t);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Shell screen'), findsOneWidget);
+    expect(find.text('B'), findsOneWidget);
   });
 }

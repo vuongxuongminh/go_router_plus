@@ -13,9 +13,9 @@ class DuplicateScreenException implements Exception {
   /// Two duplicated screens
   DuplicateScreenException(this._previous, this._current, this._type);
 
-  final Screen _previous;
+  final ScreenBase _previous;
 
-  final Screen _current;
+  final ScreenBase _current;
 
   final Type _type;
 
@@ -31,7 +31,7 @@ class InvalidBuilderException implements Exception {
   /// Exception constructor
   InvalidBuilderException(this._screen);
 
-  final Screen _screen;
+  final ScreenBase _screen;
 
   @override
   String toString() => '''
@@ -44,11 +44,11 @@ class UnexpectedScreenException implements Exception {
   /// Exception constructor
   UnexpectedScreenException({
     required String message,
-    required Screen screen,
+    required ScreenBase screen,
   })  : _screen = screen,
         _msg = message;
 
-  final Screen _screen;
+  final ScreenBase _screen;
 
   final String _msg;
 

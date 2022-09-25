@@ -15,7 +15,11 @@ part of 'go_router_plus.dart';
 abstract class Redirector {
   /// This method will be call before build widget of screen,
   /// return another route path to redirect end-user to another screen or null.
-  String? redirect(Screen screen, GoRouterState state);
+  FutureOr<String?> redirect(
+    Screen screen,
+    BuildContext buildContext,
+    GoRouterState state,
+  );
 }
 
 /// Redirector can restrict redirect screen
@@ -34,14 +38,19 @@ class ChainRedirector implements Redirector {
   final List<Redirector> _redirectors;
 
   @override
-  String? redirect(Screen screen, GoRouterState state) {
+  FutureOr<String?> redirect(
+    Screen screen,
+    BuildContext context,
+    GoRouterState state,
+  ) {
     for (final redirector in _redirectors) {
       // ignore: lines_longer_than_80_chars
-      if (redirector is RestrictRedirector && !redirector.shouldRedirect(screen)) {
+      if (redirector is RestrictRedirector &&
+          !redirector.shouldRedirect(screen)) {
         continue;
       }
 
-      final path = redirector.redirect(screen, state);
+      final path = redirector.redirect(screen, context, state);
 
       if (path != null) {
         return path;
@@ -55,7 +64,11 @@ class ChainRedirector implements Redirector {
 /// Redirector support screens aware redirect by itself.
 class ScreenRedirector implements RestrictRedirector {
   @override
-  String? redirect(Screen screen, GoRouterState state) {
+  FutureOr<String?> redirect(
+    Screen screen,
+    BuildContext context,
+    GoRouterState state,
+  ) {
     if (!shouldRedirect(screen)) {
       throw UnexpectedScreenException(
         screen: screen,
@@ -63,7 +76,7 @@ class ScreenRedirector implements RestrictRedirector {
       );
     }
 
-    return (screen as RedirectAware).redirect(state);
+    return (screen as RedirectAware).redirect(context, state);
   }
 
   @override
@@ -75,5 +88,5 @@ class ScreenRedirector implements RestrictRedirector {
 /// Implements by screens want to control redirect flow by itself.
 abstract class RedirectAware {
   /// Return another route path to redirect end-user to another screen or null.
-  String? redirect(GoRouterState state);
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state);
 }

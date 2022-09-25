@@ -9,6 +9,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
 import 'screens.dart';
@@ -25,13 +26,13 @@ void main() {
 
     expect(controller.routes.length, 3);
 
-    expect(controller.routes[0].name, 'A');
-    expect(controller.routes[1].name, 'B');
-    expect(controller.routes[2].name, 'C');
+    expect((controller.routes[0] as GoRoute).name, 'A');
+    expect((controller.routes[1] as GoRoute).name, 'B');
+    expect((controller.routes[2] as GoRoute).name, 'C');
     expect(controller.routes[2].routes.length, 1);
-    expect(controller.routes[2].routes[0].name, 'D');
+    expect((controller.routes[2].routes[0] as GoRoute).name, 'D');
     expect(controller.routes[2].routes[0].routes.length, 1);
-    expect(controller.routes[2].routes[0].routes[0].name, 'E');
+    expect((controller.routes[2].routes[0].routes[0] as GoRoute).name, 'E');
 
     expect(controller.initialScreen, null);
     expect(controller.errorScreen, null);
