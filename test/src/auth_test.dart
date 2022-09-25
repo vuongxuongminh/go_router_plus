@@ -8,6 +8,7 @@
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/src/go_router_plus.dart';
@@ -17,7 +18,7 @@ import 'auth.dart';
 import 'auth_test.mocks.dart';
 import 'screens.dart';
 
-@GenerateMocks([GoRouterState])
+@GenerateMocks([GoRouterState, BuildContext])
 void main() {
   final userRedirector = AuthRedirector(
     state: LoggedInStateProvider(),
@@ -30,16 +31,26 @@ void main() {
     userRedirectPath: '/home-page',
   );
 
-  test('test auth redirector should not redirect screen not implement GuestScreen and UserScreen', () {
+  test(
+      'test auth redirector should not redirect screen not implement GuestScreen and UserScreen',
+      () {
     for (final redirector in [userRedirector, guestRedirector]) {
       expect(redirector.shouldRedirect(ScreenA()), false);
       expect(redirector.shouldRedirect(ScreenB()), false);
       expect(
-        () => redirector.redirect(ScreenA(), MockGoRouterState()),
+        () => redirector.redirect(
+          ScreenA(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
         throwsA(isA<UnexpectedScreenException>()),
       );
       expect(
-        () => redirector.redirect(ScreenB(), MockGoRouterState()),
+        () => redirector.redirect(
+          ScreenB(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
         throwsA(isA<UnexpectedScreenException>()),
       );
     }
@@ -48,14 +59,42 @@ void main() {
   test('test auth redirector with un logged state', () {
     expect(guestRedirector.shouldRedirect(ScreenIUser()), true);
     expect(guestRedirector.shouldRedirect(ScreenJGuest()), true);
-    expect(guestRedirector.redirect(ScreenIUser(), MockGoRouterState()), '/login');
-    expect(guestRedirector.redirect(ScreenJGuest(), MockGoRouterState()), null);
+    expect(
+      guestRedirector.redirect(
+        ScreenIUser(),
+        MockBuildContext(),
+        MockGoRouterState(),
+      ),
+      '/login',
+    );
+    expect(
+      guestRedirector.redirect(
+        ScreenJGuest(),
+        MockBuildContext(),
+        MockGoRouterState(),
+      ),
+      null,
+    );
   });
 
   test('test auth redirector with logged state', () {
     expect(userRedirector.shouldRedirect(ScreenIUser()), true);
     expect(userRedirector.shouldRedirect(ScreenJGuest()), true);
-    expect(userRedirector.redirect(ScreenJGuest(), MockGoRouterState()), '/home-page');
-    expect(userRedirector.redirect(ScreenIUser(), MockGoRouterState()), null);
+    expect(
+      userRedirector.redirect(
+        ScreenJGuest(),
+        MockBuildContext(),
+        MockGoRouterState(),
+      ),
+      '/home-page',
+    );
+    expect(
+      userRedirector.redirect(
+        ScreenIUser(),
+        MockBuildContext(),
+        MockGoRouterState(),
+      ),
+      null,
+    );
   });
 }

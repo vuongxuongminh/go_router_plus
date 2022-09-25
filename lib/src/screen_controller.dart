@@ -7,12 +7,12 @@
 
 part of 'go_router_plus.dart';
 
-/// Collect and analyze list of [Screen] to detect initial screen, error screen
-/// and control redirect of routes by using [Redirector].
+/// Collect and analyze list of [ScreenBase] to detect initial screen,
+/// error screen and control redirect of routes by using [Redirector].
 class ScreenController {
   /// Construct controller with list of [Screen], and [Redirector]
   ScreenController({
-    required List<Screen> screens,
+    required List<ScreenBase> screens,
     Redirector? redirector,
   })  : _screens = screens,
         _redirector = redirector {
@@ -23,22 +23,24 @@ class ScreenController {
 
   Screen? _errorScreen;
 
-  final List<Screen> _screens;
+  final List<ScreenBase> _screens;
 
   /// Route redirector use for setting redirect of [_routes].
   final Redirector? _redirector;
 
   /// Routes loaded from [_screens] received.
-  late final List<GoRoute> _routes;
+  late final List<RouteBase> _routes;
 
-  List<GoRoute> _loadScreens({List<Screen>? screens}) {
-    final routes = <GoRoute>[];
+  List<RouteBase> _loadScreens({List<ScreenBase>? screens}) {
+    final routes = <RouteBase>[];
 
     for (final screen in screens ?? _screens) {
       screen._controller = this;
 
-      _ensureInitialScreenOnLoad(screen);
-      _ensureErrorScreenOnLoad(screen);
+      if (screen is Screen) {
+        _ensureInitialScreenOnLoad(screen);
+        _ensureErrorScreenOnLoad(screen);
+      }
 
       routes.add(screen._route);
     }
@@ -81,26 +83,38 @@ class ScreenController {
   Screen? get errorScreen => _errorScreen;
 
   /// List routes representation for screens
-  List<GoRoute> get routes => _routes;
+  List<RouteBase> get routes => _routes;
 }
 
-/// Abstract class extends by app screen.
-abstract class Screen {
+/// Screen base defining common logic of screens.
+abstract class ScreenBase {
   /// The controller of this screen
   late final ScreenController _controller;
 
+  /// List sub screens
+  /// all route path of sub screens
+  /// will prefix with route path of current screen.
+  List<ScreenBase> subScreens() {
+    return [];
+  }
+
+  /// Route represent for this screen
+  RouteBase get _route;
+}
+
+/// Abstract class extends by app screen.
+abstract class Screen extends ScreenBase {
   /// Go router path
   String get routePath;
 
   /// Go router name
   String get routeName;
 
-  /// List sub screens
-  /// all route path of sub screens
-  /// will prefix with route path of current screen.
-  List<Screen> subScreens() {
-    return [];
-  }
+  /// An optional key specifying which Navigator to display this screen onto.
+  ///
+  /// Specifying the root Navigator will stack this route onto that
+  /// Navigator instead of the nearest ShellRoute ancestor.
+  GlobalKey<NavigatorState>? parentNavigatorKey() => null;
 
   /// Builder help to build widget or page representation for this screen.
   /// when implements this method you must redeclare return type of it,
@@ -108,26 +122,74 @@ abstract class Screen {
   /// depends on you want to control transition or not.
   dynamic builder(BuildContext context, GoRouterState state);
 
+  @override
   GoRoute get _route {
-    final screenBuilder = builder;
+    final b = builder;
 
-    if (screenBuilder is Page<void> Function(BuildContext, GoRouterState)) {
+    if (b is Page<void> Function(BuildContext, GoRouterState)) {
       return GoRoute(
         path: routePath,
         name: routeName,
         routes: _controller._loadScreens(screens: subScreens()),
-        redirect: (state) => _controller._redirector?.redirect(this, state),
-        pageBuilder: screenBuilder,
+        redirect: (context, state) => _controller._redirector?.redirect(
+          this,
+          context,
+          state,
+        ),
+        pageBuilder: b,
+        parentNavigatorKey: parentNavigatorKey(),
       );
     }
 
-    if (screenBuilder is Widget Function(BuildContext, GoRouterState)) {
+    if (b is Widget Function(BuildContext, GoRouterState)) {
       return GoRoute(
         path: routePath,
         name: routeName,
         routes: _controller._loadScreens(screens: subScreens()),
-        redirect: (state) => _controller._redirector?.redirect(this, state),
-        builder: screenBuilder,
+        redirect: (context, state) => _controller._redirector?.redirect(
+          this,
+          context,
+          state,
+        ),
+        builder: b,
+        parentNavigatorKey: parentNavigatorKey(),
+      );
+    }
+
+    throw InvalidBuilderException(this);
+  }
+}
+
+/// Nested navigation screen base on ShellRoute
+abstract class ShellScreen extends ScreenBase {
+  /// The [GlobalKey] to be used by the [Navigator] built for this route.
+  /// All ShellRoutes build a Navigator by default. Child GoRoutes
+  /// are placed onto this Navigator instead of the root Navigator.
+  GlobalKey<NavigatorState> navigatorKey() => GlobalKey<NavigatorState>();
+
+  /// Builder help to build widget or page representation for this screen.
+  /// when implements this method you must redeclare return type of it,
+  /// the return type must be Widget or Page<void>
+  /// depends on you want to control transition or not.
+  dynamic builder(BuildContext context, GoRouterState state, Widget child);
+
+  @override
+  ShellRoute get _route {
+    final b = builder;
+
+    if (b is Page<void> Function(BuildContext, GoRouterState, Widget)) {
+      return ShellRoute(
+        navigatorKey: navigatorKey(),
+        routes: _controller._loadScreens(screens: subScreens()),
+        pageBuilder: b,
+      );
+    }
+
+    if (b is Widget Function(BuildContext, GoRouterState, Widget)) {
+      return ShellRoute(
+        navigatorKey: navigatorKey(),
+        routes: _controller._loadScreens(screens: subScreens()),
+        builder: b,
       );
     }
 

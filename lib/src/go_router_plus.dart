@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -20,9 +22,10 @@ part 'redirectors.dart';
 part 'refresher.dart';
 
 /// Factory function to create Go Router
-/// with [Screen]s, [Redirector]s and refresh router notifiers.
+/// with extra logics like [ScreenBase]s,
+/// [Redirector]s, and refresh router notifiers.
 GoRouter createGoRouter({
-  required List<Screen> screens,
+  required List<ScreenBase> screens,
   List<Redirector>? redirectors,
   List<Listenable>? refreshNotifiers,
   bool routerNeglect = false,
@@ -30,6 +33,7 @@ GoRouter createGoRouter({
   List<NavigatorObserver>? observers,
   bool debugLogDiagnostics = false,
   String? restorationScopeId,
+  GlobalKey<NavigatorState>? navigatorKey,
 }) {
   final controller = ScreenController(
     screens: screens,
@@ -59,5 +63,6 @@ GoRouter createGoRouter({
     debugLogDiagnostics: debugLogDiagnostics,
     refreshListenable: refresher,
     restorationScopeId: restorationScopeId,
+    navigatorKey: navigatorKey,
   );
 }

@@ -88,6 +88,25 @@ class MyErrorScreen extends Screen implements ErrorScreen {
 }
 ```
 
+### Nested navigation
+
+[ShellRoute](https://pub.dev/packages/go_router#nested-navigation) was added since go router v5
+provides a way to wrap all sub-routes with a UI shell. Under the hood, GoRouter places a Navigator 
+in the widget tree, which is used to display matching sub-routes, you can use this feature by 
+extends `ShellScreen` class:
+
+```dart
+class MyShellScreen extends ShellScreen {
+ @override
+ List<ScreenBase> subScreens() {
+  return [
+   ScreenA(),
+   ScreenB(),
+  ];
+ }
+}
+```
+
 ### Creating router with screens
 
 Now you got the screen pattern concept, let creating Go Router:
@@ -202,7 +221,7 @@ Screens want to build custom redirect logic should be implements `RedirectAware`
 ```dart
 class VipScreen extends Screen implements UserScreen, RedirectAware {
  @override
- String? redirect(GoRouterState state) {
+ FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
    /// final currentUser = ....
    return !currentUser.isVip ? '/home' : null; 
  }
@@ -252,7 +271,7 @@ class AdminRedirector implements RestrictRedirector {
  }
 
  @override
- String? redirect(GoRouterState state) {
+ FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
   /// final currentUser = ....
   return !currentUser.isAdmin ? '/home' : null;
  }

@@ -7,7 +7,7 @@
 
 // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
@@ -147,7 +147,7 @@ class AwareRedirectScreenH extends Screen implements RedirectAware {
   }
 
   @override
-  String? redirect(GoRouterState state) {
+  String? redirect(BuildContext context, GoRouterState state) {
     return '/a';
   }
 
@@ -178,4 +178,22 @@ class ScreenJGuest extends Screen implements GuestScreen {
 
   @override
   String get routePath => '/j';
+}
+
+class ShellScreenH extends ShellScreen {
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget child) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Shell screen')),
+      body: child,
+    );
+  }
+
+  @override
+  List<ScreenBase> subScreens() {
+    return [
+      InitialScreenF(tapTo: 'B'),
+      ScreenB(),
+    ];
+  }
 }
