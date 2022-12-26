@@ -3,10 +3,9 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/foundation.dart' as _i2;
-import 'package:flutter/src/widgets/framework.dart' as _i3;
-import 'package:flutter/src/widgets/notification_listener.dart' as _i5;
-import 'package:go_router/src/configuration.dart' as _i4;
+import 'package:flutter/foundation.dart' as _i3;
+import 'package:flutter/widgets.dart' as _i2;
+import 'package:go_router/go_router.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -30,7 +29,7 @@ class _FakeValueKey_0<T> extends _i1.SmartFake implements _i2.ValueKey<T> {
         );
 }
 
-class _FakeWidget_1 extends _i1.SmartFake implements _i3.Widget {
+class _FakeWidget_1 extends _i1.SmartFake implements _i2.Widget {
   _FakeWidget_1(
     Object parent,
     Invocation parentInvocation,
@@ -45,7 +44,7 @@ class _FakeWidget_1 extends _i1.SmartFake implements _i3.Widget {
 }
 
 class _FakeInheritedWidget_2 extends _i1.SmartFake
-    implements _i3.InheritedWidget {
+    implements _i2.InheritedWidget {
   _FakeInheritedWidget_2(
     Object parent,
     Invocation parentInvocation,
@@ -71,7 +70,7 @@ class _FakeDiagnosticsNode_3 extends _i1.SmartFake
 
   @override
   String toString({
-    _i2.TextTreeConfiguration? parentConfiguration,
+    _i3.TextTreeConfiguration? parentConfiguration,
     _i2.DiagnosticLevel? minLevel = _i2.DiagnosticLevel.info,
   }) =>
       super.toString();
@@ -80,6 +79,7 @@ class _FakeDiagnosticsNode_3 extends _i1.SmartFake
 /// A class which mocks [GoRouterState].
 ///
 /// See the documentation for Mockito's code generation for more information.
+// ignore: must_be_immutable
 class MockGoRouterState extends _i1.Mock implements _i4.GoRouterState {
   MockGoRouterState() {
     _i1.throwOnMissingStub(this);
@@ -140,27 +140,27 @@ class MockGoRouterState extends _i1.Mock implements _i4.GoRouterState {
 /// A class which mocks [BuildContext].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
+class MockBuildContext extends _i1.Mock implements _i2.BuildContext {
   MockBuildContext() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Widget get widget => (super.noSuchMethod(
+  _i2.Widget get widget => (super.noSuchMethod(
         Invocation.getter(#widget),
         returnValue: _FakeWidget_1(
           this,
           Invocation.getter(#widget),
         ),
-      ) as _i3.Widget);
+      ) as _i2.Widget);
   @override
   bool get debugDoingBuild => (super.noSuchMethod(
         Invocation.getter(#debugDoingBuild),
         returnValue: false,
       ) as bool);
   @override
-  _i3.InheritedWidget dependOnInheritedElement(
-    _i3.InheritedElement? ancestor, {
+  _i2.InheritedWidget dependOnInheritedElement(
+    _i2.InheritedElement? ancestor, {
     Object? aspect,
   }) =>
       (super.noSuchMethod(
@@ -177,9 +177,9 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
             {#aspect: aspect},
           ),
         ),
-      ) as _i3.InheritedWidget);
+      ) as _i2.InheritedWidget);
   @override
-  void visitAncestorElements(bool Function(_i3.Element)? visitor) =>
+  void visitAncestorElements(bool Function(_i2.Element)? visitor) =>
       super.noSuchMethod(
         Invocation.method(
           #visitAncestorElements,
@@ -188,7 +188,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
         returnValueForMissingStub: null,
       );
   @override
-  void visitChildElements(_i3.ElementVisitor? visitor) => super.noSuchMethod(
+  void visitChildElements(_i2.ElementVisitor? visitor) => super.noSuchMethod(
         Invocation.method(
           #visitChildElements,
           [visitor],
@@ -196,7 +196,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
         returnValueForMissingStub: null,
       );
   @override
-  void dispatchNotification(_i5.Notification? notification) =>
+  void dispatchNotification(_i2.Notification? notification) =>
       super.noSuchMethod(
         Invocation.method(
           #dispatchNotification,
@@ -207,7 +207,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
   @override
   _i2.DiagnosticsNode describeElement(
     String? name, {
-    _i2.DiagnosticsTreeStyle? style = _i2.DiagnosticsTreeStyle.errorProperty,
+    _i3.DiagnosticsTreeStyle? style = _i3.DiagnosticsTreeStyle.errorProperty,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -227,7 +227,7 @@ class MockBuildContext extends _i1.Mock implements _i3.BuildContext {
   @override
   _i2.DiagnosticsNode describeWidget(
     String? name, {
-    _i2.DiagnosticsTreeStyle? style = _i2.DiagnosticsTreeStyle.errorProperty,
+    _i3.DiagnosticsTreeStyle? style = _i3.DiagnosticsTreeStyle.errorProperty,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
