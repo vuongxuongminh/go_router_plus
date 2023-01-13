@@ -1,3 +1,7 @@
+2.1.0
+-----
++ Add support Go Router 6.
+
 2.0.0
 -----
 + Bump Go Router to v5
