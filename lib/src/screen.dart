@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/src/exception.dart';
 import 'package:go_router_plus/src/redirector.dart';
-import 'package:meta/meta.dart';
 
 /// An interface to mark screen as an initial screen (first screen).
 abstract class InitialScreen {}
@@ -92,7 +91,6 @@ class ScreenController {
 }
 
 /// Screen base defining common logic of screens.
-@sealed
 abstract class ScreenBase {
   /// The controller of this screen
   late final ScreenController _controller;
