@@ -1,11 +1,4 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
-part of 'go_router_plus.dart';
+import 'package:go_router_plus/src/screen.dart';
 
 /// An exception will be throw in cases
 /// screens with the same type providing more than once.
@@ -21,7 +14,7 @@ class DuplicateScreenException implements Exception {
 
   @override
   String toString() => '''
-    Duplicated ${_type.toString()} screen: ${_previous.toString()} and ${_current.toString()}
+    Duplicated $_type screen: $_previous and $_current
   ''';
 }
 

@@ -1,15 +1,7 @@
-// Copyright (c) 2022, Minh Vuong
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
 import 'screens.dart';

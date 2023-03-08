@@ -1,13 +1,11 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 // ignore_for_file: one_member_abstracts
 
-part of 'go_router_plus.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:go_router_plus/src/exception.dart';
+import 'package:go_router_plus/src/screen.dart';
 
 /// Redirector responsible to redirect end-user to another screen
 /// in cases they don't have permission to access the screen
@@ -45,8 +43,7 @@ class ChainRedirector implements Redirector {
   ) {
     for (final redirector in _redirectors) {
       // ignore: lines_longer_than_80_chars
-      if (redirector is RestrictRedirector &&
-          !redirector.shouldRedirect(screen)) {
+      if (redirector is RestrictRedirector && !redirector.shouldRedirect(screen)) {
         continue;
       }
 

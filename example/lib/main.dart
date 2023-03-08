@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/go_router_plus.dart';
 
 // ignore_for_file: public_member_api_docs

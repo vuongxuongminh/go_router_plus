@@ -1,25 +1,9 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-
-part 'auth.dart';
-
-part 'screen_controller.dart';
-
-part 'exceptions.dart';
-
-part 'redirectors.dart';
-
-part 'refresher.dart';
+import 'package:go_router_plus/src/redirector.dart';
+import 'package:go_router_plus/src/refresher.dart';
+import 'package:go_router_plus/src/screen.dart';
 
 /// Factory function to create Go Router
 /// with extra logics like [ScreenBase]s,
@@ -36,10 +20,11 @@ GoRouter createGoRouter({
   GlobalKey<NavigatorState>? navigatorKey,
 }) {
   final controller = ScreenController(
-    screens: screens,
-    redirector: ChainRedirector(redirectors ?? []),
+    screens: [...screens],
+    redirector: ChainRedirector([...redirectors ?? []]),
+    navigatorKey: navigatorKey,
   );
-  final refresher = Refresher(refreshNotifiers ?? []);
+  final refresher = Refresher([...refreshNotifiers ?? []]);
   final errorScreenBuilder = controller.errorScreen?.builder;
   Page<void> Function(BuildContext, GoRouterState)? errorPageBuilder;
   Widget Function(BuildContext, GoRouterState)? errorBuilder;
@@ -53,6 +38,7 @@ GoRouter createGoRouter({
   }
 
   return GoRouter(
+    navigatorKey: controller.navigatorKey,
     routes: controller.routes,
     routerNeglect: routerNeglect,
     redirectLimit: redirectLimit,
@@ -63,6 +49,5 @@ GoRouter createGoRouter({
     debugLogDiagnostics: debugLogDiagnostics,
     refreshListenable: refresher,
     restorationScopeId: restorationScopeId,
-    navigatorKey: navigatorKey,
   );
 }
