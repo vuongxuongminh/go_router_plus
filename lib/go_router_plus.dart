@@ -1,10 +1,11 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
+/// Building blocks screen, access control,
+/// refresh notifiers base on Go Router.
 library go_router_plus;
 
-export 'src/go_router_plus.dart';
+export 'package:go_router/go_router.dart';
+
+export 'src/auth.dart';
+export 'src/exception.dart';
+export 'src/factory.dart';
+export 'src/redirector.dart';
+export 'src/screen.dart';

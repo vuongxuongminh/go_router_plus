@@ -1,17 +1,12 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
+import 'package:flutter/widgets.dart';
+import 'package:meta/meta.dart';
 
-part of 'go_router_plus.dart';
-
+/// {@template go_router_plus.refresher}
 /// The refresher support refresh router by list listenable added.
+/// {@endtemplate}
+@internal
 class Refresher extends ChangeNotifier {
-  /// The constructor with notifiers
-  /// use to add listener to them to refresh router
-  /// when they notify.
+  /// {@macro go_router_plus.refresher}
   Refresher(List<Listenable> notifiers) {
     for (final notifier in notifiers) {
       notifier.addListener(notifyListeners);

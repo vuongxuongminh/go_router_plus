@@ -1,11 +1,8 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
-part of 'go_router_plus.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:go_router_plus/src/exception.dart';
+import 'package:go_router_plus/src/redirector.dart';
+import 'package:go_router_plus/src/screen.dart';
 
 /// Represent for user state (logged-in system or not).
 abstract class LoggedInState {

@@ -1,16 +1,21 @@
-// Copyright (c) 2022, Minh Vuong
-// https://github.com/vuongxuongminh
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:go_router_plus/src/exception.dart';
+import 'package:go_router_plus/src/redirector.dart';
+import 'package:meta/meta.dart';
 
-part of 'go_router_plus.dart';
+/// An interface to mark screen as an initial screen (first screen).
+abstract class InitialScreen {}
 
+/// An interface to mark screen as an error screen.
+abstract class ErrorScreen {}
+
+/// {@template go_router_plus.screen_controller}
 /// Collect and analyze list of [ScreenBase] to detect initial screen,
 /// error screen and control redirect of routes by using [Redirector].
+/// {@endtemplate}
 class ScreenController {
-  /// Construct controller with list of [Screen], and [Redirector]
+  /// {@macro: go_router_plus.screen_controller}
   ScreenController({
     required List<ScreenBase> screens,
     Redirector? redirector,
@@ -87,6 +92,7 @@ class ScreenController {
 }
 
 /// Screen base defining common logic of screens.
+@sealed
 abstract class ScreenBase {
   /// The controller of this screen
   late final ScreenController _controller;
@@ -102,19 +108,27 @@ abstract class ScreenBase {
   RouteBase get _route;
 }
 
+/// {@template: go_router_plus.screen_controller.screen}
 /// Abstract class extends by app screen.
+/// {@endtemplate}
 abstract class Screen extends ScreenBase {
+  /// {@macro: go_router_plus.screen_controller.screen}
+  Screen({GlobalKey<NavigatorState>? parentNavigatorKey})
+      : _parentNavigatorKey = parentNavigatorKey;
+
   /// Go router path
   String get routePath;
 
   /// Go router name
   String get routeName;
 
+  final GlobalKey<NavigatorState>? _parentNavigatorKey;
+
   /// An optional key specifying which Navigator to display this screen onto.
   ///
   /// Specifying the root Navigator will stack this route onto that
   /// Navigator instead of the nearest ShellRoute ancestor.
-  GlobalKey<NavigatorState>? parentNavigatorKey() => null;
+  GlobalKey<NavigatorState>? get parentNavigatorKey => _parentNavigatorKey;
 
   /// Builder help to build widget or page representation for this screen.
   /// when implements this method you must redeclare return type of it,
@@ -137,7 +151,7 @@ abstract class Screen extends ScreenBase {
           state,
         ),
         pageBuilder: b,
-        parentNavigatorKey: parentNavigatorKey(),
+        parentNavigatorKey: parentNavigatorKey,
       );
     }
 
@@ -152,7 +166,7 @@ abstract class Screen extends ScreenBase {
           state,
         ),
         builder: b,
-        parentNavigatorKey: parentNavigatorKey(),
+        parentNavigatorKey: parentNavigatorKey,
       );
     }
 
@@ -160,12 +174,20 @@ abstract class Screen extends ScreenBase {
   }
 }
 
+/// {@template go_router_plus.shell_screen}
 /// Nested navigation screen base on ShellRoute
+/// {@endtemplate}
 abstract class ShellScreen extends ScreenBase {
+  /// {@macro go_router_plus.shell_screen}
+  ShellScreen({GlobalKey<NavigatorState>? navigatorKey})
+      : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
+
+  final GlobalKey<NavigatorState> _navigatorKey;
+
   /// The [GlobalKey] to be used by the [Navigator] built for this route.
   /// All ShellRoutes build a Navigator by default. Child GoRoutes
   /// are placed onto this Navigator instead of the root Navigator.
-  GlobalKey<NavigatorState> navigatorKey() => GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   /// Builder help to build widget or page representation for this screen.
   /// when implements this method you must redeclare return type of it,
@@ -179,7 +201,7 @@ abstract class ShellScreen extends ScreenBase {
 
     if (b is Page<void> Function(BuildContext, GoRouterState, Widget)) {
       return ShellRoute(
-        navigatorKey: navigatorKey(),
+        navigatorKey: navigatorKey,
         routes: _controller._loadScreens(screens: subScreens()),
         pageBuilder: b,
       );
@@ -187,7 +209,7 @@ abstract class ShellScreen extends ScreenBase {
 
     if (b is Widget Function(BuildContext, GoRouterState, Widget)) {
       return ShellRoute(
-        navigatorKey: navigatorKey(),
+        navigatorKey: navigatorKey,
         routes: _controller._loadScreens(screens: subScreens()),
         builder: b,
       );
@@ -196,9 +218,3 @@ abstract class ShellScreen extends ScreenBase {
     throw InvalidBuilderException(this);
   }
 }
-
-/// An interface to mark screen as an initial screen (first screen).
-abstract class InitialScreen {}
-
-/// An interface to mark screen as an error screen.
-abstract class ErrorScreen {}
