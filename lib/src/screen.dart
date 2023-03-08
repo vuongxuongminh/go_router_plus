@@ -18,27 +18,30 @@ class ScreenController {
   ScreenController({
     required List<ScreenBase> screens,
     Redirector? redirector,
+    GlobalKey<NavigatorState>? navigatorKey,
   })  : _screens = screens,
-        _redirector = redirector {
-    _routes = _loadScreens();
+        _redirector = redirector,
+        navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>() {
+    _routes = _loadScreens(_screens);
   }
 
   Screen? _initialScreen;
 
   Screen? _errorScreen;
 
+  /// Root navigator key of routes
+  final GlobalKey<NavigatorState> navigatorKey;
+
   final List<ScreenBase> _screens;
 
-  /// Route redirector use for setting redirect of [_routes].
   final Redirector? _redirector;
 
-  /// Routes loaded from [_screens] received.
   late final List<RouteBase> _routes;
 
-  List<RouteBase> _loadScreens({List<ScreenBase>? screens}) {
+  List<RouteBase> _loadScreens(List<ScreenBase> screens) {
     final routes = <RouteBase>[];
 
-    for (final screen in screens ?? _screens) {
+    for (final screen in screens) {
       screen._controller = this;
 
       if (screen is Screen) {
@@ -92,7 +95,6 @@ class ScreenController {
 
 /// Screen base defining common logic of screens.
 abstract class ScreenBase {
-  /// The controller of this screen
   late final ScreenController _controller;
 
   /// List sub screens
@@ -104,29 +106,28 @@ abstract class ScreenBase {
 
   /// Route represent for this screen
   RouteBase get _route;
+
+  /// Root navigator key, useful for sub screens of shell in cases you want to
+  /// set navigator key to to root but not shell.
+  GlobalKey<NavigatorState> get rootNavigatorKey => _controller.navigatorKey;
 }
 
-/// {@template: go_router_plus.screen.screen}
-/// Abstract class extends by app screen.
-/// {@endtemplate}
+/// Abstract class extends by app screens.
 abstract class Screen extends ScreenBase {
-  /// {@macro: go_router_plus.screen.screen}
-  Screen({GlobalKey<NavigatorState>? parentNavigatorKey})
-      : _parentNavigatorKey = parentNavigatorKey;
-
   /// Go router path
   String get routePath;
 
   /// Go router name
   String get routeName;
 
-  final GlobalKey<NavigatorState>? _parentNavigatorKey;
-
   /// An optional key specifying which Navigator to display this screen onto.
   ///
-  /// Specifying the root Navigator will stack this route onto that
-  /// Navigator instead of the nearest ShellRoute ancestor.
-  GlobalKey<NavigatorState>? get parentNavigatorKey => _parentNavigatorKey;
+  /// Specifying the root Navigator will stack this screen onto that
+  /// Navigator instead of the nearest [ShellScreen] ancestor.
+  ///
+  /// Override this getter in case you want to control navigator,
+  /// example: sub screens of shell route want to display on root navigator.
+  GlobalKey<NavigatorState>? get parentNavigatorKey => null;
 
   /// Builder help to build widget or page representation for this screen.
   /// when implements this method you must redeclare return type of it,
@@ -142,7 +143,7 @@ abstract class Screen extends ScreenBase {
       return GoRoute(
         path: routePath,
         name: routeName,
-        routes: _controller._loadScreens(screens: subScreens()),
+        routes: _controller._loadScreens(subScreens()),
         redirect: (context, state) => _controller._redirector?.redirect(
           this,
           context,
@@ -157,7 +158,7 @@ abstract class Screen extends ScreenBase {
       return GoRoute(
         path: routePath,
         name: routeName,
-        routes: _controller._loadScreens(screens: subScreens()),
+        routes: _controller._loadScreens(subScreens()),
         redirect: (context, state) => _controller._redirector?.redirect(
           this,
           context,
@@ -172,20 +173,17 @@ abstract class Screen extends ScreenBase {
   }
 }
 
-/// {@template go_router_plus.screen.shell_screen}
 /// Nested navigation screen base on ShellRoute
-/// {@endtemplate}
 abstract class ShellScreen extends ScreenBase {
-  /// {@macro go_router_plus.screen.shell_screen}
-  ShellScreen({GlobalKey<NavigatorState>? navigatorKey})
-      : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
+  /// The [GlobalKey] to be used by the [Navigator]
+  /// built for route of this screen.
+  GlobalKey<NavigatorState>? get navigatorKey => null;
 
-  final GlobalKey<NavigatorState> _navigatorKey;
-
-  /// The [GlobalKey] to be used by the [Navigator] built for this route.
-  /// All ShellRoutes build a Navigator by default. Child GoRoutes
-  /// are placed onto this Navigator instead of the root Navigator.
-  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
+  /// The observers for a shell route of this screen.
+  ///
+  /// The observers parameter is used by the [Navigator] built for this route.
+  /// sub-route's observers.
+  List<NavigatorObserver>? get observers => null;
 
   /// Builder help to build widget or page representation for this screen.
   /// when implements this method you must redeclare return type of it,
@@ -199,16 +197,18 @@ abstract class ShellScreen extends ScreenBase {
 
     if (b is Page<void> Function(BuildContext, GoRouterState, Widget)) {
       return ShellRoute(
+        observers: observers,
         navigatorKey: navigatorKey,
-        routes: _controller._loadScreens(screens: subScreens()),
+        routes: _controller._loadScreens(subScreens()),
         pageBuilder: b,
       );
     }
 
     if (b is Widget Function(BuildContext, GoRouterState, Widget)) {
       return ShellRoute(
+        observers: observers,
         navigatorKey: navigatorKey,
-        routes: _controller._loadScreens(screens: subScreens()),
+        routes: _controller._loadScreens(subScreens()),
         builder: b,
       );
     }

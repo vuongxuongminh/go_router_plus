@@ -22,6 +22,7 @@ GoRouter createGoRouter({
   final controller = ScreenController(
     screens: [...screens],
     redirector: ChainRedirector([...redirectors ?? []]),
+    navigatorKey: navigatorKey,
   );
   final refresher = Refresher([...refreshNotifiers ?? []]);
   final errorScreenBuilder = controller.errorScreen?.builder;
@@ -37,6 +38,7 @@ GoRouter createGoRouter({
   }
 
   return GoRouter(
+    navigatorKey: controller.navigatorKey,
     routes: controller.routes,
     routerNeglect: routerNeglect,
     redirectLimit: redirectLimit,
@@ -47,6 +49,5 @@ GoRouter createGoRouter({
     debugLogDiagnostics: debugLogDiagnostics,
     refreshListenable: refresher,
     restorationScopeId: restorationScopeId,
-    navigatorKey: navigatorKey,
   );
 }

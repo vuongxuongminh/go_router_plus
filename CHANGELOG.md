@@ -1,9 +1,9 @@
 3.0.0
 -----
-+ [Screen] add support set *parentNavigatorKey* via constructor.
-+ [ShellScreen] add support set *navigatorKey* via constructor.
+
 + **BC:**  replace method [Screen.parentNavigatorKey()] with [Screen.parentNavigatorKey] getter.
 + **BC:** replace method [ShellScreen.navigatorKey()] with [ShellScreen.navigatorKey] getter.
++ [ShellScreen] add getter observers.
 + Bump version of Go Router version `^6.2.0`.
 + Bump version of `very_good_analysis` to `^4.0.0`.
 + Refactor codebase.
