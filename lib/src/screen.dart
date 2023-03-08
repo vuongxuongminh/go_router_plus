@@ -10,12 +10,12 @@ abstract class InitialScreen {}
 /// An interface to mark screen as an error screen.
 abstract class ErrorScreen {}
 
-/// {@template go_router_plus.screen_controller}
+/// {@template go_router_plus.screen.screen_controller}
 /// Collect and analyze list of [ScreenBase] to detect initial screen,
 /// error screen and control redirect of routes by using [Redirector].
 /// {@endtemplate}
 class ScreenController {
-  /// {@macro: go_router_plus.screen_controller}
+  /// {@macro: go_router_plus.screen.screen_controller}
   ScreenController({
     required List<ScreenBase> screens,
     Redirector? redirector,
@@ -108,11 +108,11 @@ abstract class ScreenBase {
   RouteBase get _route;
 }
 
-/// {@template: go_router_plus.screen_controller.screen}
+/// {@template: go_router_plus.screen.screen}
 /// Abstract class extends by app screen.
 /// {@endtemplate}
 abstract class Screen extends ScreenBase {
-  /// {@macro: go_router_plus.screen_controller.screen}
+  /// {@macro: go_router_plus.screen.screen}
   Screen({GlobalKey<NavigatorState>? parentNavigatorKey})
       : _parentNavigatorKey = parentNavigatorKey;
 
@@ -174,11 +174,11 @@ abstract class Screen extends ScreenBase {
   }
 }
 
-/// {@template go_router_plus.shell_screen}
+/// {@template go_router_plus.screen.shell_screen}
 /// Nested navigation screen base on ShellRoute
 /// {@endtemplate}
 abstract class ShellScreen extends ScreenBase {
-  /// {@macro go_router_plus.shell_screen}
+  /// {@macro go_router_plus.screen.shell_screen}
   ShellScreen({GlobalKey<NavigatorState>? navigatorKey})
       : _navigatorKey = navigatorKey ?? GlobalKey<NavigatorState>();
 
