@@ -42,8 +42,8 @@ class ChainRedirector implements Redirector {
     GoRouterState state,
   ) {
     for (final redirector in _redirectors) {
-      // ignore: lines_longer_than_80_chars
-      if (redirector is RestrictRedirector && !redirector.shouldRedirect(screen)) {
+      if (redirector is RestrictRedirector &&
+          !redirector.shouldRedirect(screen)) {
         continue;
       }
 

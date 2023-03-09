@@ -1,6 +1,6 @@
 name: go_router_plus
 description: Building blocks screens, access control and refresh notifiers base on Go Router.
-version: 3.0.0
+version: 3.0.0+1
 repository: https://github.com/vuongxuongminh/go_router_plus
 
 environment:

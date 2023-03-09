@@ -30,7 +30,8 @@ void main() {
     expect(controller.errorScreen, null);
   });
 
-  test('test constructor will throw exception when have invalid screen builder', () {
+  test('test constructor will throw exception when have invalid screen builder',
+      () {
     expect(
       () => ScreenController(
         screens: [
