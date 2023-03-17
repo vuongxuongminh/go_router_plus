@@ -19,7 +19,7 @@ class DuplicateScreenException implements Exception {
 }
 
 /// An exception will be throw when classes
-/// implementing [Screen] have a [Screen.builder] returning invalid types.
+/// implementing [Screen] have a [Screen.build] returning invalid types.
 class InvalidBuilderException implements Exception {
   /// Exception constructor
   InvalidBuilderException(this._screen);

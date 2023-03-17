@@ -1,5 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+
+// ignore: implementation_imports
+import 'package:go_router/src/typedefs.dart'
+    show ShellRouteBuilder, ShellRoutePageBuilder;
+
 import 'package:go_router_plus/src/exception.dart';
 import 'package:go_router_plus/src/redirector.dart';
 
@@ -133,13 +138,13 @@ abstract class Screen extends ScreenBase {
   /// when implements this method you must redeclare return type of it,
   /// the return type must be Widget or Page<void>
   /// depends on you want to control transition or not.
-  dynamic builder(BuildContext context, GoRouterState state);
+  dynamic build(BuildContext context, GoRouterState state);
 
   @override
   GoRoute get _route {
-    final b = builder;
+    final b = build;
 
-    if (b is Page<void> Function(BuildContext, GoRouterState)) {
+    if (b is GoRouterPageBuilder) {
       return GoRoute(
         path: routePath,
         name: routeName,
@@ -154,7 +159,7 @@ abstract class Screen extends ScreenBase {
       );
     }
 
-    if (b is Widget Function(BuildContext, GoRouterState)) {
+    if (b is GoRouterWidgetBuilder) {
       return GoRoute(
         path: routePath,
         name: routeName,
@@ -189,13 +194,13 @@ abstract class ShellScreen extends ScreenBase {
   /// when implements this method you must redeclare return type of it,
   /// the return type must be Widget or Page<void>
   /// depends on you want to control transition or not.
-  dynamic builder(BuildContext context, GoRouterState state, Widget child);
+  dynamic build(BuildContext context, GoRouterState state, Widget child);
 
   @override
   ShellRoute get _route {
-    final b = builder;
+    final b = build;
 
-    if (b is Page<void> Function(BuildContext, GoRouterState, Widget)) {
+    if (b is ShellRoutePageBuilder) {
       return ShellRoute(
         observers: observers,
         navigatorKey: navigatorKey,
@@ -204,7 +209,7 @@ abstract class ShellScreen extends ScreenBase {
       );
     }
 
-    if (b is Widget Function(BuildContext, GoRouterState, Widget)) {
+    if (b is ShellRouteBuilder) {
       return ShellRoute(
         observers: observers,
         navigatorKey: navigatorKey,

@@ -5,7 +5,7 @@ import 'package:go_router_plus/go_router_plus.dart';
 
 class InvalidBuilderScreen extends Screen {
   @override
-  void builder(BuildContext context, GoRouterState state) {}
+  void build(BuildContext context, GoRouterState state) {}
 
   @override
   String get routeName => 'A';
@@ -16,7 +16,7 @@ class InvalidBuilderScreen extends Screen {
 
 class ScreenA extends Screen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('A');
   }
 
@@ -29,7 +29,7 @@ class ScreenA extends Screen {
 
 class ScreenB extends Screen {
   @override
-  Page<void> builder(BuildContext context, GoRouterState state) {
+  Page<void> build(BuildContext context, GoRouterState state) {
     return NoTransitionPage(child: Text('B'));
   }
 
@@ -42,7 +42,7 @@ class ScreenB extends Screen {
 
 class ScreenC extends Screen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('C');
   }
 
@@ -62,7 +62,7 @@ class ScreenC extends Screen {
 
 class SubScreenD extends Screen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('D');
   }
 
@@ -82,7 +82,7 @@ class SubScreenD extends Screen {
 
 class SubScreenE extends Screen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('E');
   }
 
@@ -99,7 +99,7 @@ class InitialScreenF extends Screen implements InitialScreen {
   final String? _tapToScreen;
 
   @override
-  Widget builder(BuildContext _, GoRouterState state) {
+  Widget build(BuildContext _, GoRouterState state) {
     return Builder(
       builder: (context) => GestureDetector(
         child: Text('F'),
@@ -121,7 +121,7 @@ class InitialScreenF extends Screen implements InitialScreen {
 
 class ErrorScreenG extends Screen implements ErrorScreen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('G');
   }
 
@@ -134,7 +134,7 @@ class ErrorScreenG extends Screen implements ErrorScreen {
 
 class AwareRedirectScreenH extends Screen implements RedirectAware {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     throw UnimplementedError();
   }
 
@@ -152,7 +152,7 @@ class AwareRedirectScreenH extends Screen implements RedirectAware {
 
 class ScreenIUser extends Screen implements UserScreen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) => Text('I');
+  Widget build(BuildContext context, GoRouterState state) => Text('I');
 
   @override
   String get routeName => 'I';
@@ -163,7 +163,7 @@ class ScreenIUser extends Screen implements UserScreen {
 
 class ScreenJGuest extends Screen implements GuestScreen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) => Text('J');
+  Widget build(BuildContext context, GoRouterState state) => Text('J');
 
   @override
   String get routeName => 'J';
@@ -174,7 +174,7 @@ class ScreenJGuest extends Screen implements GuestScreen {
 
 class ShellScreenH extends ShellScreen {
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget child) {
+  Widget build(BuildContext context, GoRouterState state, Widget child) {
     return Scaffold(
       appBar: AppBar(title: const Text('Shell screen')),
       body: child,

@@ -40,7 +40,7 @@ class LoginScreen extends Screen implements InitialScreen, GuestScreen {
   final AuthService authService;
 
   @override
-  Widget builder(BuildContext context, GoRouterState state) => Scaffold(
+  Widget build(BuildContext context, GoRouterState state) => Scaffold(
         body: const Text('Login screen'),
         floatingActionButton: FloatingActionButton(
           onPressed: authService.login,
@@ -61,7 +61,7 @@ class HomeScreen extends Screen implements UserScreen {
   final AuthService authService;
 
   @override
-  Widget builder(BuildContext context, GoRouterState state) => Scaffold(
+  Widget build(BuildContext context, GoRouterState state) => Scaffold(
         body: const Text('Home screen'),
         floatingActionButton: FloatingActionButton(
           onPressed: authService.logout,

@@ -25,15 +25,17 @@ GoRouter createGoRouter({
     navigatorKey: navigatorKey,
   );
   final refresher = Refresher([...refreshNotifiers ?? []]);
-  final errorScreenBuilder = controller.errorScreen?.builder;
-  Page<void> Function(BuildContext, GoRouterState)? errorPageBuilder;
-  Widget Function(BuildContext, GoRouterState)? errorBuilder;
+  final errorScreenBuilder = controller.errorScreen?.build;
 
-  if (errorScreenBuilder is Page<void> Function(BuildContext, GoRouterState)) {
+  GoRouterPageBuilder? errorPageBuilder;
+
+  if (errorScreenBuilder is GoRouterPageBuilder) {
     errorPageBuilder = errorScreenBuilder;
   }
 
-  if (errorScreenBuilder is Widget Function(BuildContext, GoRouterState)) {
+  GoRouterWidgetBuilder? errorBuilder;
+
+  if (errorScreenBuilder is GoRouterWidgetBuilder) {
     errorBuilder = errorScreenBuilder;
   }
 
