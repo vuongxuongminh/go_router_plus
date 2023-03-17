@@ -41,7 +41,7 @@ import 'package:go_router/go_router.dart'
 
 class MyFirstScreen extends Screen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text('Hello world');
   }
 
@@ -56,7 +56,7 @@ class MyFirstScreen extends Screen {
 All of your screens must be extends an abstraction class `Screen` providing by this package. 
 The following methods, getters need to implements:
 
-+ Method `builder(BuildContext context, GoRouterState state)` must be redeclare return
++ Method `build(BuildContext context, GoRouterState state)` must be redeclare return
 type to `Widget` or `Page<void>`, in common case you should use `Widget` but if you want to [control
 the transition of screen](https://gorouter.dev/transitions) you should use `Page<void>`.
 + Getter `routeName` declare route name of the screen must be unique.
@@ -81,7 +81,7 @@ argument to handling error (e.g route not found) but when using this package you
 ```dart
 class MyErrorScreen extends Screen implements ErrorScreen {
   @override
-  Widget builder(BuildContext context, GoRouterState state) {
+  Widget build(BuildContext context, GoRouterState state) {
     return Text(state.error);
   }
   ///......
