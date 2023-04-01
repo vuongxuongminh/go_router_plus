@@ -1,3 +1,9 @@
+4.1.0
+-----
+
++ Add `initialExtra` arg to factory to pass extra data alongside initial screen.
++ Change type of `LoggedInState.loggedIn` getter to `FutureOr<bool>`.
+
 4.0.0
 -----
 

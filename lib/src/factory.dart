@@ -18,6 +18,7 @@ GoRouter createGoRouter({
   bool debugLogDiagnostics = false,
   String? restorationScopeId,
   GlobalKey<NavigatorState>? navigatorKey,
+  Object? initialExtra,
 }) {
   final controller = ScreenController(
     screens: [...screens],
@@ -51,5 +52,6 @@ GoRouter createGoRouter({
     debugLogDiagnostics: debugLogDiagnostics,
     refreshListenable: refresher,
     restorationScopeId: restorationScopeId,
+    initialExtra: initialExtra,
   );
 }

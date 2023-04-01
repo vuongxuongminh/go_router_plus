@@ -1,16 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/src/exception.dart';
 import 'package:go_router_plus/src/redirector.dart';
 import 'package:go_router_plus/src/screen.dart';
+import 'package:meta/meta.dart';
 
 /// Represent for user state (logged-in system or not).
 abstract class LoggedInState {
   /// Getter return true in case user have been logged otherwise is guest.
-  bool get loggedIn;
+  FutureOr<bool> get loggedIn;
 }
 
 /// Redirect user base on [LoggedInState].
+@sealed
 class AuthRedirector implements RestrictRedirector {
   /// When user in [UserScreen] but NOT logged in
   /// redirect to [guestRedirectPath].
@@ -34,7 +38,11 @@ class AuthRedirector implements RestrictRedirector {
   final LoggedInState state;
 
   @override
-  String? redirect(Screen screen, BuildContext _, GoRouterState __) {
+  FutureOr<String?> redirect(
+    Screen screen,
+    BuildContext _,
+    GoRouterState __,
+  ) async {
     if (!shouldRedirect(screen)) {
       throw UnexpectedScreenException(
         message: 'should implement UserScreen or GuestScreen',
@@ -42,11 +50,13 @@ class AuthRedirector implements RestrictRedirector {
       );
     }
 
-    if (screen is UserScreen && !state.loggedIn) {
+    final loggedIn = await state.loggedIn;
+
+    if (screen is UserScreen && !loggedIn) {
       return guestRedirectPath;
     }
 
-    if (screen is GuestScreen && state.loggedIn) {
+    if (screen is GuestScreen && loggedIn) {
       return userRedirectPath;
     }
 

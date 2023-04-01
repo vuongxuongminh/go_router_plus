@@ -1,7 +1,9 @@
 import 'package:go_router_plus/src/screen.dart';
+import 'package:meta/meta.dart';
 
 /// An exception will be throw in cases
 /// screens with the same type providing more than once.
+@sealed
 class DuplicateScreenException implements Exception {
   /// Two duplicated screens
   DuplicateScreenException(this._previous, this._current, this._type);
@@ -20,6 +22,7 @@ class DuplicateScreenException implements Exception {
 
 /// An exception will be throw when classes
 /// implementing [Screen] have a [Screen.build] returning invalid types.
+@sealed
 class InvalidBuilderException implements Exception {
   /// Exception constructor
   InvalidBuilderException(this._screen);
@@ -33,6 +36,7 @@ class InvalidBuilderException implements Exception {
 }
 
 /// An exception will be throw when receive unexpected screen.
+@sealed
 class UnexpectedScreenException implements Exception {
   /// Exception constructor
   UnexpectedScreenException({

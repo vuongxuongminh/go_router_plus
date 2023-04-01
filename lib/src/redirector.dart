@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_router_plus/src/exception.dart';
 import 'package:go_router_plus/src/screen.dart';
+import 'package:meta/meta.dart';
 
 /// Redirector responsible to redirect end-user to another screen
 /// in cases they don't have permission to access the screen
@@ -29,6 +30,7 @@ abstract class RestrictRedirector implements Redirector {
 }
 
 /// Chain redirector
+@sealed
 class ChainRedirector implements Redirector {
   /// Redirectors have responsibility to decide redirect screen.
   ChainRedirector(this._redirectors);
@@ -59,6 +61,7 @@ class ChainRedirector implements Redirector {
 }
 
 /// Redirector support screens aware redirect by itself.
+@sealed
 class ScreenRedirector implements RestrictRedirector {
   @override
   FutureOr<String?> redirect(
