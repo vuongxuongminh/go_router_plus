@@ -48,11 +48,11 @@ void main() {
     }
   });
 
-  test('test auth redirector with un logged state', () {
+  test('test auth redirector with un logged state', () async {
     expect(guestRedirector.shouldRedirect(ScreenIUser()), true);
     expect(guestRedirector.shouldRedirect(ScreenJGuest()), true);
     expect(
-      guestRedirector.redirect(
+      await guestRedirector.redirect(
         ScreenIUser(),
         MockBuildContext(),
         MockGoRouterState(),
@@ -60,7 +60,7 @@ void main() {
       '/login',
     );
     expect(
-      guestRedirector.redirect(
+      await guestRedirector.redirect(
         ScreenJGuest(),
         MockBuildContext(),
         MockGoRouterState(),
@@ -69,11 +69,11 @@ void main() {
     );
   });
 
-  test('test auth redirector with logged state', () {
+  test('test auth redirector with logged state', () async {
     expect(userRedirector.shouldRedirect(ScreenIUser()), true);
     expect(userRedirector.shouldRedirect(ScreenJGuest()), true);
     expect(
-      userRedirector.redirect(
+      await userRedirector.redirect(
         ScreenJGuest(),
         MockBuildContext(),
         MockGoRouterState(),
@@ -81,7 +81,7 @@ void main() {
       '/home-page',
     );
     expect(
-      userRedirector.redirect(
+      await userRedirector.redirect(
         ScreenIUser(),
         MockBuildContext(),
         MockGoRouterState(),
