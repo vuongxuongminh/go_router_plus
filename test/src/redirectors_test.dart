@@ -9,67 +9,76 @@ import 'screens.dart';
 
 @GenerateMocks([GoRouterState, BuildContext])
 void main() {
-  test('test non restrict screen, chain redirector should not redirect', () {
-    final redirector = ChainRedirector([
-      RedirectorA(),
-    ]);
+  test(
+    'test non restrict screen, chain redirector should not redirect',
+    () async {
+      final redirector = ChainRedirector([
+        RedirectorA(),
+      ]);
 
-    expect(
-      redirector.redirect(
-        ScreenB(),
-        MockBuildContext(),
-        MockGoRouterState(),
-      ),
-      null,
-    );
-  });
+      expect(
+        await redirector.redirect(
+          ScreenB(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
+        null,
+      );
+    },
+  );
 
-  test('test restrict screen, chain redirector should redirect', () {
-    final redirector = ChainRedirector([
-      RedirectorA(),
-    ]);
+  test(
+    'test restrict screen, chain redirector should redirect',
+    () async {
+      final redirector = ChainRedirector([
+        RedirectorA(),
+      ]);
 
-    expect(
-      redirector.redirect(
-        ScreenA(),
-        MockBuildContext(),
-        MockGoRouterState(),
-      ),
-      '/b',
-    );
-  });
+      expect(
+        await redirector.redirect(
+          ScreenA(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
+        '/b',
+      );
+    },
+  );
 
-  test('test chain redirector always redirect', () {
-    final redirector = ChainRedirector([
-      RedirectorA(),
-      RedirectorB(),
-    ]);
+  test(
+    'test chain redirector always redirect',
+    () async {
+      final redirector = ChainRedirector([
+        RedirectorC(),
+        RedirectorB(),
+      ]);
 
-    expect(
-      redirector.redirect(
-        ScreenA(),
-        MockBuildContext(),
-        MockGoRouterState(),
-      ),
-      '/b',
-    );
-    expect(
-      redirector.redirect(
-        ScreenB(),
-        MockBuildContext(),
-        MockGoRouterState(),
-      ),
-      '/b',
-    );
-    expect(
-      redirector.redirect(
-        ScreenC(),
-        MockBuildContext(),
-        MockGoRouterState(),
-      ),
-      '/b',
-    );
-  });
+      expect(
+        await redirector.redirect(
+          ScreenA(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
+        '/b',
+      );
+      expect(
+        await redirector.redirect(
+          ScreenB(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
+        '/b',
+      );
+      expect(
+        await redirector.redirect(
+          ScreenC(),
+          MockBuildContext(),
+          MockGoRouterState(),
+        ),
+        '/b',
+      );
+    },
+  );
 
   test('test screen rediretor should redirect', () {
     final redirector = ScreenRedirector();

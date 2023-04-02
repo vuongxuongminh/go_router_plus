@@ -42,14 +42,14 @@ class ChainRedirector implements Redirector {
     Screen screen,
     BuildContext context,
     GoRouterState state,
-  ) {
+  ) async {
     for (final redirector in _redirectors) {
       if (redirector is RestrictRedirector &&
           !redirector.shouldRedirect(screen)) {
         continue;
       }
 
-      final path = redirector.redirect(screen, context, state);
+      final path = await redirector.redirect(screen, context, state);
 
       if (path != null) {
         return path;

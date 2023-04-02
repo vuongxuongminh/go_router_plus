@@ -5,7 +5,11 @@ import 'screens.dart';
 
 class RedirectorA implements RestrictRedirector {
   @override
-  String? redirect(Screen screen, BuildContext context, GoRouterState state) {
+  String? redirect(
+    Screen screen,
+    BuildContext context,
+    GoRouterState state,
+  ) {
     return '/b';
   }
 
@@ -17,7 +21,22 @@ class RedirectorA implements RestrictRedirector {
 
 class RedirectorB implements Redirector {
   @override
-  String? redirect(Screen screen, BuildContext context, GoRouterState state) {
+  String? redirect(
+    Screen screen,
+    BuildContext context,
+    GoRouterState state,
+  ) {
     return '/b';
+  }
+}
+
+class RedirectorC implements Redirector {
+  @override
+  Future<String?> redirect(
+    Screen screen,
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    return null;
   }
 }
