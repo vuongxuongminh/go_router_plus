@@ -1,3 +1,8 @@
+4.1.1
+-----
+
++ Fix bug chain redirector not wait future.
+
 4.1.0
 -----
 

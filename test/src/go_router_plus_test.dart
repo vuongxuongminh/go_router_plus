@@ -25,6 +25,8 @@ void main() {
       ),
     );
 
+    await tester.pumpAndSettle();
+
     expect(find.text('F'), findsOneWidget);
   });
 
@@ -47,6 +49,8 @@ void main() {
         routerConfig: router,
       ),
     );
+
+    await tester.pumpAndSettle();
 
     final t = find.text('F');
 
@@ -100,6 +104,8 @@ void main() {
         ),
       );
 
+      await tester.pumpAndSettle();
+
       final t = find.text('F');
 
       await tester.tap(t);
@@ -131,6 +137,8 @@ void main() {
         routerConfig: router,
       ),
     );
+
+    await tester.pumpAndSettle();
 
     expect(find.text('Shell screen'), findsOneWidget);
 
