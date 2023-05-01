@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^6.5.2
+  go_router: ">=6.5.2 <8.0.0"
   meta: ^1.8.0
 
 dev_dependencies:
